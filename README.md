@@ -1,557 +1,600 @@
-# Programing-in-Java-B22-B24-
-SMART STUDENT ATTENDANCE AND PERFORMANCE SYSTEM
-# Smart Student Attendance & Performance System
+# 🎓 Smart Student Attendance & Performance Management System
 
-![Java](https://img.shields.io/badge/Java-8%2B-orange)
-![License](https://img.shields.io/badge/License-MIT-blue)
-![Status](https://img.shields.io/badge/Status-Complete-brightgreen)
+<p align="center">
+  <strong>A Modular Java-Based Academic Management System</strong>
+</p>
 
-A comprehensive Java-based desktop application for managing student attendance records and academic performance in educational institutions.
+<p align="center">
+  Manage student records, attendance, academic performance, authentication, and consolidated reports through a structured Java application.
+</p>
 
-**Course:** CSE2006 - Programming in Java  
-**Slot:** B22 + B24  
-**Faculty:** Murugeswari.K  
-**Author:** Akshay Pratap Singh (25BCE10184)
+<p align="center">
 
-## Table of Contents
+![Java](https://img.shields.io/badge/Java-8%2B-orange?style=for-the-badge&logo=openjdk)
+![Course](https://img.shields.io/badge/Course-CSE2006-blue?style=for-the-badge)
+![Architecture](https://img.shields.io/badge/Architecture-Layered-green?style=for-the-badge)
+![Storage](https://img.shields.io/badge/Storage-CSV-yellow?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-purple?style=for-the-badge)
 
-- [Overview](#overview)
-- [Features](#features)
-- [System Architecture](#system-architecture)
-- [Project Structure](#project-structure)
-- [Installation & Setup](#installation--setup)
-- [Usage Guide](#usage-guide)
-- [Modules](#modules)
-- [Technologies Used](#technologies-used)
-- [Data Persistence](#data-persistence)
-- [Testing](#testing)
-- [Future Enhancements](#future-enhancements)
-- [License](#license)
-- [Author](#author)
+</p>
 
 ---
 
-## Overview
+# 📌 Table of Contents
 
-The **Smart Student Attendance & Performance System** is a desktop application developed in Java that streamlines the management of student records, attendance tracking, and academic performance monitoring. The system provides educational institutions with an efficient, secure, and user-friendly platform for comprehensive student data management.
-
-### Key Objectives
-
-- ✅ Develop a comprehensive student information management system with CRUD operations
-- ✅ Implement efficient attendance tracking with automatic percentage calculation
-- ✅ Create a performance management module with automatic grade assignment
-- ✅ Establish a secure authentication system with user authorization
-- ✅ Generate comprehensive integrated student reports
-- ✅ Persist data in portable CSV format for easy external analysis
-
----
-
-## Features
-
-### 🔐 Authentication & Authorization
-- Secure user login with credential validation
-- Role-based access control
-- User registration for authorized personnel
-- Default admin and teacher accounts
-- Session management
-
-### 👥 Student Management
-- **Add Student:** Register new students with complete details (ID, Name, Roll Number, Course, Semester)
-- **View All Students:** Display complete student roster
-- **Search Student:** Find specific student information using Student ID
-- **Update Student:** Modify student details and persist changes
-- **Remove Student:** Delete student records from the system
-- **Data Validation:** Prevents duplicate student IDs and ensures data integrity
-
-### 📊 Attendance Management
-- **Mark/Update Attendance:** Record class attendance for students
-- **Automatic Calculation:** Compute attendance percentage automatically
-- **Shortage Detection:** Flag students with attendance below 75% threshold
-- **View Records:** Display attendance for individual or all students
-- **Attendance Status:** Real-time shortage identification
-
-### 📈 Performance Management
-- **Enter Marks:** Record student marks (0-100) per subject
-- **Automatic Grading:** Assign grades based on predefined criteria:
-  - A+ (90-100), A (80-89), B+ (70-79), B (60-69)
-  - C (50-59), D (40-49), F (0-39)
-- **View Performance:** Display all subject marks and grades
-- **Calculate Average:** Compute average marks across subjects
-- **Overall Grade:** Determine overall grade based on average
-
-### 📋 Report Generation
-- **Consolidated Reports:** Combine student information, attendance, and performance data
-- **Comprehensive View:** Single integrated report for complete student overview
-- **Easy Analysis:** All data in one place for quick assessment
-
-### 💾 Data Persistence
-- CSV-based file storage for easy portability
-- Automatic file creation and header management
-- Persistent data across sessions
-- External analysis capability using spreadsheet applications
+- [Project Overview](#-project-overview)
+- [Problem Statement](#-problem-statement)
+- [Objectives](#-objectives)
+- [Key Features](#-key-features)
+- [Functional Modules](#-functional-modules)
+- [Technology Stack](#-technology-stack)
+- [Java Concepts Demonstrated](#-java-concepts-demonstrated)
+- [System Architecture](#-system-architecture)
+- [Application Workflow](#-application-workflow)
+- [Project Structure](#-project-structure)
+- [Data Management](#-data-management)
+- [Attendance Management](#-attendance-management)
+- [Performance Management](#-performance-management)
+- [Authentication & Security](#-authentication--security)
+- [Prerequisites](#-prerequisites)
+- [Installation](#-installation)
+- [Running the Application](#-running-the-application)
+- [Testing](#-testing)
+- [Validation & Error Handling](#-validation--error-handling)
+- [Non-Functional Requirements](#-non-functional-requirements)
+- [Design Decisions](#-design-decisions)
+- [Current Limitations](#-current-limitations)
+- [Future Enhancements](#-future-enhancements)
+- [CSE2006 Syllabus Mapping](#-cse2006-syllabus-mapping)
+- [Documentation](#-documentation)
+- [Screenshots](#-screenshots)
+- [Repository & Git Guidelines](#-repository--git-guidelines)
+- [Contributing](#-contributing)
+- [Author](#-author)
+- [Acknowledgements](#-acknowledgements)
+- [License](#-license)
 
 ---
 
-## System Architecture
+# 📖 Project Overview
 
-### Layered Architecture
+The **Smart Student Attendance & Performance Management System** is a Java-based, menu-driven academic management application developed as part of the **CSE2006 – Programming in Java** course.
 
-```
-┌─────────────────────────────────────────┐
-│     Presentation Layer (Main.java)      │
-│         Menu-Driven Interface           │
-└──────────────┬──────────────────────────┘
-               │
-┌──────────────▼──────────────────────────┐
-│         Service Layer                   │
-│  ┌──────────────────────────────────┐   │
-│  │ StudentService                   │   │
-│  │ AttendanceService                │   │
-│  │ PerformanceService               │   │
-│  │ AuthService                      │   │
-│  │ ReportService                    │   │
-│  └──────────────────────────────────┘   │
-└──────────────┬──────────────────────────┘
-               │
-┌──────────────▼──────────────────────────┐
-│         Data Layer (CSV Files)          │
-│  ┌──────────────────────────────────┐   │
-│  │ students.csv                     │   │
-│  │ users.csv                        │   │
-│  └──────────────────────────────────┘   │
-└─────────────────────────────────────────┘
-```
+The application provides a centralized system for managing important academic information such as:
 
-### Design Patterns Used
+- Student records
+- Attendance
+- Academic performance
+- User authentication
+- Attendance shortage detection
+- Grade calculation
+- Consolidated student reports
 
-- **Service Locator Pattern:** Centralized service management
-- **Data Access Object (DAO) Pattern:** Encapsulated data persistence
-- **Utility Class Pattern:** Reusable validation methods
-- **Model-View-Controller (MVC):** Separation of concerns
+The project is designed using a modular architecture with separate model, service, utility, and application-control responsibilities.
+
+It demonstrates the practical application of Java programming concepts to a real-world academic management problem.
 
 ---
 
-## Project Structure
+# ❗ Problem Statement
 
-```
-Javafiles/
-├── model/
-│   ├── student.java                    # Student entity class
-│   ├── Attendancerecord.java          # Attendance data class
-│   └── PerformanceRecord.java         # Performance data class
-├── service/
-│   ├── StudentService.java             # Student management logic
-│   ├── AttendanceService.java         # Attendance operations
-│   ├── PerformanceService.java        # Performance management
-│   ├── AuthService.java                # Authentication & authorization
-│   └── ReportService.java              # Report generation
-├── util/
-│   └── InputValidator.java             # Input validation utility
-├── Main.java                           # Application entry point
-├── students.csv                        # Student records database
-└── users.csv                           # User credentials database
-```
+Educational institutions need to maintain accurate student information, attendance records, and academic performance data.
+
+Manual management of these records can result in:
+
+- Duplicate student records
+- Incorrect attendance calculations
+- Difficulty identifying attendance shortages
+- Repeated manual calculation of marks and grades
+- Difficulty maintaining organized academic information
+- Increased effort in generating student reports
+- Input validation problems
+
+The proposed system addresses these issues by providing a structured Java application that allows authorized users to manage student information, attendance, performance, and reports through a unified interface.
 
 ---
 
-## Installation & Setup
+# 🎯 Objectives
 
-### Prerequisites
+The primary objectives of the project are:
 
-- **Java Runtime Environment (JRE):** Java 8 or higher
-- **Operating System:** Windows, Linux, or macOS
-- **Memory:** Minimum 256 MB RAM
-- **Storage:** Minimal disk space for CSV files
-
-### Steps
-
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/akshay25bce10184-sketch/Programing-in-Java-B22-B24-.git
-   cd Programing-in-Java-B22-B24-
-   ```
-
-2. **Compile the Project**
-   ```bash
-   javac -d . Javafiles/Main.java
-   ```
-
-3. **Run the Application**
-   ```bash
-   java Javafiles.Main
-   ```
-
-### Initial Setup
-
-- The application creates CSV files automatically on first run
-- Default login credentials:
-  - **Username:** admin
-  - **Password:** admin123
+1. Develop a practical Java-based academic management application.
+2. Implement CRUD operations for student records.
+3. Maintain and calculate student attendance.
+4. Identify students with attendance shortages.
+5. Manage subject-wise academic performance.
+6. Calculate average marks and grades automatically.
+7. Implement user authentication.
+8. Validate user input and application data.
+9. Generate consolidated student reports.
+10. Demonstrate Object-Oriented Programming principles.
+11. Demonstrate Java Collections Framework.
+12. Demonstrate Java File I/O.
+13. Apply modular programming and package organization.
+14. Provide a foundation for future database and security enhancements.
 
 ---
 
-## Usage Guide
+# ✨ Key Features
 
-### Main Menu Options
+## 🔐 Authentication
 
-```
-1. Student Management
-   - Add Student
-   - View All Students
-   - Search Student
-   - Update Student
-   - Remove Student
+- User login
+- Credential validation
+- User registration
+- Logout functionality
+- Controlled access to application operations
 
-2. Attendance Management
-   - Mark/Update Attendance
-   - View Student Attendance
-   - View All Attendance Records
-   - Check Attendance Shortage
+## 👨‍🎓 Student Management
 
-3. Performance Management
-   - Enter Marks
-   - View Student Performance
-   - Calculate Average & Grade
+- Add student
+- View students
+- Search student
+- Update student details
+- Delete student
+- Duplicate student ID detection
 
-4. Generate Student Report
-   - Create consolidated reports
+Student information includes:
 
-5. Login
-   - Authenticate user
+- Student ID
+- Name
+- Roll Number
+- Course
+- Semester
 
-6. Logout
-   - End current session
+## 📊 Attendance Management
 
-7. Register New User
-   - Add authorized user (requires login)
+- Record attendance
+- View attendance information
+- Calculate attendance percentage
+- Identify attendance shortages
+- Validate attendance input
+- Apply attendance threshold
 
-8. Exit
-   - Close application
-```
+## 📝 Performance Management
 
-### Sample Workflow
+- Enter subject-wise marks
+- View academic performance
+- Validate marks
+- Calculate average marks
+- Automatically assign grades
+- Evaluate overall academic performance
 
-```
-1. Start Application
-2. Login (Username: admin, Password: admin123)
-3. Add Students
-4. Mark Attendance
-5. Enter Performance Data
-6. Generate Reports
-7. Logout
-```
+## 📄 Report Generation
 
----
+The reporting module combines student information, attendance information, and performance information into a consolidated academic report.
 
-## Modules
+Reports may include:
 
-### 1. **Student Management Module** (StudentService.java)
+- Student details
+- Attendance percentage
+- Attendance status
+- Subject-wise marks
+- Average marks
+- Overall grade
 
-Manages complete student lifecycle from registration to removal.
+## ✅ Input Validation
 
-**Key Methods:**
-- `addStudent()` - Register new student
-- `viewAllStudents()` - Display student roster
-- `searchStudent()` - Find student by ID
-- `updateStudent()` - Modify student information
-- `removeStudent()` - Delete student record
-- `findStudent()` - Internal search utility
+The application validates user input to reduce invalid data and common runtime errors.
 
-**Data File:** `students.csv`  
-**Format:** `studentId,name,rollNumber,course,semester`
+Examples include:
 
----
-
-### 2. **Attendance Management Module** (AttendanceService.java)
-
-Tracks and analyzes student attendance patterns.
-
-**Key Methods:**
-- `markAttendance()` - Record attendance data
-- `viewAttendance()` - Display student attendance
-- `checkShortage()` - Identify attendance shortage
-- `viewAllAttendance()` - Show all records
-- `getAttendancePercentage()` - Calculate percentage
-- `isShortage()` - Check if below 75% threshold
-
-**Features:**
-- Automatic percentage calculation: (Attended / Total) × 100
-- Shortage detection at 75% threshold
-- Session-based storage (in-memory ArrayList)
+- Invalid numeric input
+- Invalid marks
+- Invalid attendance values
+- Duplicate student IDs
+- Invalid student searches
+- Invalid authentication details
 
 ---
 
-### 3. **Performance Management Module** (PerformanceService.java)
+# 🧩 Functional Modules
 
-Manages academic performance and automatic grading.
+| Module | Responsibility |
+|---|---|
+| 🔐 Authentication | Login, registration and user validation |
+| 👨‍🎓 Student Management | Student CRUD operations |
+| 📊 Attendance Management | Attendance recording and analysis |
+| 📝 Performance Management | Marks, averages and grades |
+| 📄 Report Generation | Consolidated academic reports |
+| ✅ Input Validation | User input validation |
 
-**Key Methods:**
-- `enterMarks()` - Record subject marks
-- `viewStudentPerformance()` - Display marks
-- `calculateAverage()` - Compute average marks
-- `getOverallGrade()` - Determine overall grade
-- `displayAverage()` - Show average and grade
-
-**Grade Criteria:**
-| Grade | Marks Range | Performance |
-|-------|-------------|-------------|
-| A+    | 90-100      | Excellent   |
-| A     | 80-89       | Very Good   |
-| B+    | 70-79       | Good        |
-| B     | 60-69       | Satisfactory|
-| C     | 50-59       | Average     |
-| D     | 40-49       | Below Avg   |
-| F     | 0-39        | Fail        |
+The project satisfies the requirement for multiple meaningful functional modules through separate application services.
 
 ---
 
-### 4. **Authentication Module** (AuthService.java)
-
-Provides secure access control and user management.
-
-**Key Methods:**
-- `login()` - Authenticate user
-- `logout()` - End session
-- `addAuthorizedUser()` - Register new user
-- `isLoggedIn()` - Check authentication status
-- `getCurrentUser()` - Get logged-in user name
-
-**Security Features:**
-- Username-password validation
-- Role-based access control
-- Persistent credential storage
-- Session management
-
-**Data File:** `users.csv`  
-**Format:** `username,password`
-
----
-
-### 5. **Report Generation Module** (ReportService.java)
-
-Creates comprehensive integrated reports.
-
-**Key Methods:**
-- `generateReport()` - Create student report
-- Integrates data from StudentService, AttendanceService, PerformanceService
-
-**Report Includes:**
-- Student details (ID, Name, Roll Number, Course, Semester)
-- Attendance information (Total, Attended, Percentage)
-- Performance data (Marks, Grades by subject)
-- Average marks and overall grade
-
----
-
-### 6. **Input Validation Utility** (InputValidator.java)
-
-Provides reusable input validation methods.
-
-**Key Methods:**
-- `readInt()` - Parse and validate integer input
-- `readPositiveInt()` - Ensure positive values
-- `readIntInRange()` - Validate range constraints
-- `readDouble()` - Parse and validate decimal input
-- `readDoubleInRange()` - Validate decimal range
-- `readNonEmptyString()` - Ensure non-empty string input
-
-**Benefits:**
-- Eliminates code duplication
-- Ensures consistent validation across modules
-- Reduces bugs related to input handling
-- Improves user experience with error messages
-
----
-
-## Technologies Used
+# 🛠️ Technology Stack
 
 | Technology | Purpose |
-|-----------|---------|
-| **Java 8+** | Core programming language |
-| **OOP Principles** | Object-oriented design |
-| **ArrayList** | Dynamic data structure for collections |
-| **BufferedReader/FileWriter** | CSV file I/O operations |
-| **Scanner** | User input handling |
-| **HashMap** | User credential storage |
+|---|---|
+| **Java** | Primary programming language |
+| **Object-Oriented Programming** | Application and domain design |
+| **ArrayList** | In-memory collection management |
+| **HashMap** | Key-value data management |
+| **Scanner** | Console input |
+| **BufferedReader** | Reading text/CSV files |
+| **FileWriter** | Writing text/CSV files |
+| **Exception Handling** | Controlled error handling |
+| **Git** | Version control |
+| **GitHub** | Repository hosting |
 
 ---
 
-## Data Persistence
+# ☕ Java Concepts Demonstrated
 
-### CSV File Structure
+The project applies concepts covered in the CSE2006 Programming in Java curriculum.
 
-#### students.csv
-```csv
+## Core Java
+
+- Variables
+- Data types
+- Operators
+- Conditional statements
+- Loops
+- Methods
+- Console input/output
+
+## Object-Oriented Programming
+
+- Classes
+- Objects
+- Constructors
+- Encapsulation
+- Methods
+- Access modifiers
+- Packages
+- Object interaction
+
+## Exception Handling
+
+- Input validation
+- Invalid data handling
+- Runtime error handling
+- Controlled error messages
+
+## Collections Framework
+
+- `ArrayList`
+- `HashMap`
+- Collection-based record management
+
+## File I/O
+
+- File reading
+- File writing
+- `BufferedReader`
+- `FileWriter`
+- CSV-based storage
+
+## Modular Programming
+
+- Model layer
+- Service layer
+- Utility layer
+- Application/main layer
+
+---
+
+# 🏗️ System Architecture
+
+The project follows a simple layered architecture.
+
+```text
+                         ┌─────────────────────────┐
+                         │        Main.java        │
+                         │   Console / Menu Layer  │
+                         └────────────┬────────────┘
+                                      │
+                                      ▼
+                         ┌─────────────────────────┐
+                         │      Service Layer      │
+                         ├─────────────────────────┤
+                         │ AuthService              │
+                         │ StudentService           │
+                         │ AttendanceService        │
+                         │ PerformanceService       │
+                         │ ReportService            │
+                         └────────────┬────────────┘
+                                      │
+                                      ▼
+                         ┌─────────────────────────┐
+                         │       Model Layer       │
+                         ├─────────────────────────┤
+                         │ Student                 │
+                         │ AttendanceRecord        │
+                         │ PerformanceRecord       │
+                         └────────────┬────────────┘
+                                      │
+                                      ▼
+                         ┌─────────────────────────┐
+                         │      Utility Layer      │
+                         │     InputValidator      │
+                         └────────────┬────────────┘
+                                      │
+                                      ▼
+                         ┌─────────────────────────┐
+                         │      File Storage        │
+                         │        CSV Files        │
+                         └─────────────────────────┘
+```
+
+---
+
+# 🔄 Application Workflow
+
+```text
+START
+  │
+  ▼
+LOGIN
+  │
+  ├── Invalid Credentials ──► Retry
+  │
+  ▼
+MAIN MENU
+  │
+  ├── Student Management
+  │       ├── Add Student
+  │       ├── View Students
+  │       ├── Search Student
+  │       ├── Update Student
+  │       └── Delete Student
+  │
+  ├── Attendance Management
+  │       ├── Record Attendance
+  │       ├── View Attendance
+  │       └── Check Shortage
+  │
+  ├── Performance Management
+  │       ├── Enter Marks
+  │       ├── View Performance
+  │       └── Calculate Grade
+  │
+  ├── Report Generation
+  │       └── Generate Student Report
+  │
+  ├── User Management
+  │       └── Register User
+  │
+  ├── Logout
+  │
+  └── Exit
+```
+
+---
+
+# 📁 Project Structure
+
+```text
+Programing-in-Java-B22-B24-/
+│
+├── studentmanagment/
+│   │
+│   └── src/
+│       │
+│       └── Javafiles/
+│           │
+│           ├── model/
+│           │   ├── student.java
+│           │   ├── Attendancerecord.java
+│           │   └── PerformanceRecord.java
+│           │
+│           ├── service/
+│           │   ├── StudentService.java
+│           │   ├── AttendanceService.java
+│           │   ├── PerformanceService.java
+│           │   ├── AuthService.java
+│           │   └── ReportService.java
+│           │
+│           ├── util/
+│           │   └── InputValidator.java
+│           │
+│           └── Main.java
+│
+├── docs/
+│   ├── architecture.png
+│   ├── workflow.png
+│   ├── use-case.png
+│   ├── class-diagram.png
+│   ├── sequence-diagram.png
+│   └── screenshots/
+│
+├── README.md
+├── statement.md
+├── PROJECT_REPORT.pdf
+├── LICENSE
+└── .gitignore
+```
+
+> Keep this structure synchronized with the actual repository whenever files are renamed or reorganized.
+
+---
+
+# 💾 Data Management
+
+The current implementation uses local CSV-based storage where applicable.
+
+## Student Data
+
+Example structure:
+
+```text
 studentId,name,rollNumber,course,semester
-22BAI10052,Gopal Gour,22BAI10052,BAI,7
-22BCE11555,Prabhav Sharma,22BCE11555,BCE,7
 ```
 
-#### users.csv
-```csv
+## User Data
+
+Example structure:
+
+```text
 username,password
-admin,admin123
-teacher,teacher123
 ```
 
-### Data Flow
-```
-User Input → Service Layer → Model Classes → File I/O → CSV Files
-CSV Files → File I/O → ArrayList (In-Memory) → Service Layer → User Output
-```
+Attendance and performance information are currently managed by their respective services and may be maintained in memory during application execution.
 
-### Persistence Features
-- Automatic file creation on first run
-- Header management for data organization
-- Seamless read/write operations
-- Data durability across sessions
-- External analysis capability
+### Data Persistence Status
+
+| Data | Current Storage |
+|---|---|
+| Student information | CSV / local storage |
+| User information | CSV / local storage |
+| Attendance | In-memory |
+| Performance | In-memory |
+| Reports | Generated from available application data |
 
 ---
 
-## Testing
+# 📊 Attendance Management
 
-### Test Coverage
+Attendance percentage is calculated using:
 
-#### Authentication Tests
-- ✅ Valid login attempt
-- ✅ Invalid password rejection
-- ✅ User registration and persistence
-
-#### Student Management Tests
-- ✅ Add unique student successfully
-- ✅ Reject duplicate student IDs
-- ✅ Search and retrieve student information
-- ✅ Update student details
-- ✅ Remove student records
-
-#### Attendance Tests
-- ✅ Mark attendance correctly
-- ✅ Calculate attendance percentage accurately
-- ✅ Detect attendance shortage (< 75%)
-- ✅ Display attendance records
-
-#### Performance Tests
-- ✅ Enter marks within valid range
-- ✅ Assign correct grades
-- ✅ Calculate average marks
-- ✅ Determine overall grade
-
-#### Report Tests
-- ✅ Generate consolidated reports
-- ✅ Combine data from multiple sources
-- ✅ Display complete student information
-
-### Test Results
-**Status:** All tests PASSED ✅
-
----
-
-## Future Enhancements
-
-### 1. Database Migration
-- Transition from CSV to relational database (MySQL, PostgreSQL)
-- Improved scalability and query optimization
-- Multi-user concurrent access support
-
-### 2. Graphical User Interface
-- JavaFX or Swing-based GUI development
-- Intuitive visual interface
-- Enhanced user experience
-
-### 3. Web Application
-- Spring Boot backend development
-- React/Angular frontend
-- Multi-platform accessibility
-- Remote access capabilities
-
-### 4. Advanced Reporting
-- PDF report generation
-- Charts and graphs
-- Statistical analysis
-- Data visualization
-
-### 5. Email Notifications
-- Automated alerts for attendance shortages
-- Performance warnings
-- Parent-student communication
-
-### 6. Mobile Application
-- Android/iOS apps
-- Real-time access for students and parents
-- Push notifications
-
-### 7. Role-Based Access Control
-- Granular permission system
-- Admin, Faculty, Student roles
-- Different access levels
-
-### 8. Data Analytics
-- Predictive analytics for at-risk students
-- Performance trend analysis
-- Attendance pattern recognition
-
-### 9. RESTful APIs
-- Integration with other systems
-- Third-party application compatibility
-- Microservices architecture
-
----
-
-## Key Algorithms
-
-### Attendance Percentage Calculation
-```
-Attendance % = (Attended Classes / Total Classes) × 100
+```text
+Attendance Percentage =
+(Attended Classes / Total Classes) × 100
 ```
 
-### Shortage Detection
-```
-If Attendance % < 75%
-    → Flag as "Attendance Shortage"
-Else
-    → Status "Satisfactory"
-```
+The application uses a **75% threshold** for identifying attendance shortages.
 
-### Average Marks Calculation
-```
-Average = Σ(Marks) / Number of Subjects
-```
+```text
+             Attendance Percentage
+                      │
+                      ▼
+              ┌──────────────┐
+              │    >= 75%    │
+              └──────┬───────┘
+                     │
+                     ▼
+              Satisfactory
 
-### Grade Assignment
-```
-if marks >= 90 → A+
-else if marks >= 80 → A
-else if marks >= 70 → B+
-else if marks >= 60 → B
-else if marks >= 50 → C
-else if marks >= 40 → D
-else → F
+              ┌──────────────┐
+              │     < 75%    │
+              └──────┬───────┘
+                     │
+                     ▼
+             Attendance Shortage
 ```
 
 ---
 
-## Code Quality
+# 📝 Performance Management
 
-### Design Principles
-- ✅ Single Responsibility Principle
-- ✅ Open/Closed Principle
-- ✅ DRY (Don't Repeat Yourself)
-- ✅ SOLID Principles
-- ✅ Clean Code Practices
+The system calculates average marks using:
 
-### Best Practices
-- Meaningful variable and method names
-- Comprehensive input validation
-- Exception handling and error messages
-- Code modularity and reusability
-- Documentation and comments
+```text
+Average Marks =
+Sum of Subject Marks / Number of Subjects
+```
+
+## Grade Structure
+
+| Marks | Grade |
+|---:|:---:|
+| 90–100 | A+ |
+| 80–89 | A |
+| 70–79 | B+ |
+| 60–69 | B |
+| 50–59 | C |
+| 40–49 | D |
+| 0–39 | F |
 
 ---
 
-## Compilation & Execution
+# 🔐 Authentication & Security
 
-### Compile All Files
+Authentication is provided through the application's user-management functionality.
+
+## Security Principles
+
+The repository should **never contain real passwords, API keys, database credentials, or private tokens**.
+
+Sensitive files should be excluded from version control.
+
+Example `.gitignore` entries:
+
+```gitignore
+*.env
+*.secret
+config.properties
+users.csv
+```
+
+Instead of committing real credentials, use example/template files such as:
+
+```text
+users.example.csv
+config.example.properties
+```
+
+## Password Security
+
+The current academic implementation uses local authentication data and should not be considered production-grade security.
+
+For a production-ready implementation, password storage should be upgraded to:
+
+- Secure password hashing
+- Salted credentials
+- Secure configuration
+- Strong authentication controls
+- Database-backed user management
+- Proper authorization
+
+> **Never publish real credentials in this repository or in the README.**
+
+---
+
+# ⚙️ Prerequisites
+
+Before running the project, install:
+
+- **Java JDK 8 or later**
+- **Git**
+- Java-compatible IDE or terminal
+
+Recommended IDEs:
+
+- IntelliJ IDEA
+- Eclipse
+- Visual Studio Code
+- NetBeans
+
+---
+
+# 📥 Installation
+
+## 1. Clone the Repository
+
+```bash
+git clone https://github.com/akshay25bce10184-sketch/Programing-in-Java-B22-B24-.git
+```
+
+## 2. Navigate to the Project
+
+```bash
+cd Programing-in-Java-B22-B24-
+```
+
+## 3. Open the Project
+
+Open the repository in your preferred Java IDE.
+
+---
+
+# ▶️ Running the Application
+
+## Using an IDE
+
+1. Open the repository in your IDE.
+2. Locate `Main.java`.
+3. Verify the package structure.
+4. Build the project.
+5. Run the `main()` method.
+
+## Using Command Line
+
+Navigate to the source directory and compile the project according to its package structure.
+
+Example:
+
 ```bash
 javac -d . Javafiles/model/*.java
 javac -d . Javafiles/service/*.java
@@ -559,167 +602,622 @@ javac -d . Javafiles/util/*.java
 javac -d . Javafiles/Main.java
 ```
 
-### Run Application
+Run the application:
+
 ```bash
 java Javafiles.Main
 ```
 
-### Create JAR File
-```bash
-jar cfm StudentSystem.jar manifest.txt Javafiles/
-java -jar StudentSystem.jar
+> If the repository structure changes, update the compilation commands accordingly.
+
+---
+
+# 🧪 Testing
+
+Testing should cover both normal functionality and invalid-input scenarios.
+
+## Authentication Tests
+
+| Test Case | Expected Result |
+|---|---|
+| Valid credentials | Login successful |
+| Invalid username | Login rejected |
+| Invalid password | Login rejected |
+| New user registration | User registered |
+
+## Student Management Tests
+
+| Test Case | Expected Result |
+|---|---|
+| Add valid student | Student added |
+| Duplicate student ID | Operation rejected |
+| Search existing student | Student displayed |
+| Search invalid ID | Appropriate message displayed |
+| Update student | Details updated |
+| Delete student | Student removed |
+
+## Attendance Tests
+
+| Test Case | Expected Result |
+|---|---|
+| Valid attendance | Attendance accepted |
+| Invalid attendance | Input rejected |
+| Calculate percentage | Correct percentage |
+| Attendance below 75% | Shortage identified |
+
+## Performance Tests
+
+| Test Case | Expected Result |
+|---|---|
+| Valid marks | Marks accepted |
+| Marks outside valid range | Input rejected |
+| Calculate average | Correct average |
+| Calculate grade | Correct grade |
+
+## Report Tests
+
+| Test Case | Expected Result |
+|---|---|
+| Generate student report | Consolidated report generated |
+| Missing attendance data | Handled appropriately |
+| Missing performance data | Handled appropriately |
+
+### Recommended Future Testing
+
+For a stronger production-quality implementation, add:
+
+- JUnit unit tests
+- Integration tests
+- Automated regression tests
+- Test coverage reporting
+
+---
+
+# 🛡️ Validation & Error Handling
+
+The system uses validation and controlled error handling to improve reliability.
+
+Validation includes:
+
+- Student ID validation
+- Numeric input validation
+- Marks range validation
+- Attendance validation
+- Duplicate student detection
+- Invalid student search handling
+- Authentication validation
+
+The objective is to prevent invalid user input from causing unexpected application behavior.
+
+---
+
+# 📋 Non-Functional Requirements
+
+## Usability
+
+The system provides a menu-driven interface with clearly defined operations and user feedback.
+
+## Reliability
+
+Validation and controlled error handling reduce common input-related failures.
+
+## Maintainability
+
+The separation of models, services, and utilities makes individual components easier to understand and modify.
+
+## Performance
+
+The current implementation is designed for small-to-medium academic datasets using Java collections and local file storage.
+
+## Portability
+
+The application uses standard Java APIs and can run on operating systems supporting the required Java version.
+
+## Resource Efficiency
+
+The application uses lightweight local storage and in-memory collections without requiring an external server.
+
+## Security
+
+Sensitive information should not be committed to the repository, and production deployment should use secure credential management.
+
+---
+
+# 🧠 Design Decisions
+
+## Why Java?
+
+Java was selected because it is the primary programming language for CSE2006 and provides support for:
+
+- Object-oriented programming
+- Collections
+- Exception handling
+- File I/O
+- Packages
+- Multithreading
+- Database connectivity
+
+## Why Layered Architecture?
+
+Separating the application into model, service, utility, and main layers improves:
+
+- Maintainability
+- Readability
+- Modularity
+- Reusability
+- Future extensibility
+
+## Why CSV Storage?
+
+CSV provides a simple, portable local storage mechanism without requiring external database configuration.
+
+For larger deployments, JDBC/database storage is recommended.
+
+---
+
+# ⚠️ Current Limitations
+
+The current version has the following limitations:
+
+1. The application uses a console-based interface.
+2. CSV files are used instead of a relational database.
+3. Attendance and performance records are currently maintained in memory.
+4. Student lookup may require linear collection traversal.
+5. The application is primarily designed for local execution.
+6. There is no web-based interface.
+7. There is no graphical dashboard.
+8. Automated unit-test integration can be expanded.
+9. Password handling requires stronger security for production use.
+10. JDBC/JPA database persistence has not yet been implemented.
+11. Multithreading and synchronization are not currently core application features.
+
+These limitations are documented to clearly distinguish the current implementation from planned enhancements.
+
+---
+
+# 🚀 Future Enhancements
+
+## 🗄️ Database Integration
+
+- JDBC connectivity
+- Relational database support
+- Persistent attendance records
+- Persistent performance records
+- SQL-based CRUD operations
+- Database-backed authentication
+
+## 🔐 Security Enhancements
+
+- Password hashing
+- Salted credentials
+- Secure configuration
+- Granular role-based permissions
+- Improved authentication controls
+
+## 🧵 Multithreading
+
+Potential applications include:
+
+- Concurrent report generation
+- Background data processing
+- Synchronized access to shared resources
+
+## 🖥️ Graphical User Interface
+
+Possible technologies:
+
+- JavaFX
+- Swing
+
+Potential features:
+
+- Dashboard
+- Interactive tables
+- Forms
+- Attendance charts
+- Performance graphs
+
+## 📊 Advanced Analytics
+
+- Attendance trends
+- Performance trends
+- Student ranking
+- Subject-wise analytics
+- Low-attendance identification
+- Academic performance analysis
+
+## 🧪 Automated Testing
+
+- JUnit integration
+- Unit testing
+- Integration testing
+- Regression testing
+- Improved test coverage
+
+## 📄 Advanced Reporting
+
+- PDF report generation
+- CSV report export
+- Graphical reports
+- Attendance analytics
+- Performance analytics
+
+---
+
+# 🎓 CSE2006 Syllabus Mapping
+
+The project applies concepts covered in the **CSE2006 – Programming in Java** curriculum.
+
+| CSE2006 Topic | Project Application |
+|---|---|
+| Java Basics | Core application logic and control flow |
+| Variables & Data Types | Student and application data |
+| Operators | Calculations and validation |
+| Conditional Statements | Business logic and validation |
+| Loops | Menu and record processing |
+| Classes & Objects | Model and service classes |
+| Constructors | Object initialization |
+| Methods | Service and utility operations |
+| Encapsulation | Organization of data and operations |
+| Access Modifiers | Class/member access |
+| Packages | `model`, `service`, `util` |
+| Collections | `ArrayList`, `HashMap` |
+| Exception Handling | Input and operation error handling |
+| String Handling | Student and authentication data |
+| File I/O | CSV reading and writing |
+| Modular Programming | Layered application structure |
+| Multithreading | Future enhancement |
+| Synchronization | Future enhancement |
+| JDBC | Future database enhancement |
+| JPA | Future persistence enhancement |
+
+---
+
+# 📐 Documentation
+
+The project should maintain the following documentation artefacts:
+
+## System Design
+
+- System Architecture Diagram
+- Workflow Diagram
+- Use Case Diagram
+- Class Diagram
+- Sequence Diagram
+- ER Diagram when database storage is introduced
+
+## Project Documentation
+
+The detailed project report should include:
+
+1. Cover Page
+2. Introduction
+3. Problem Statement
+4. Functional Requirements
+5. Non-Functional Requirements
+6. System Architecture
+7. Design Diagrams
+8. Design Decisions and Rationale
+9. Implementation Details
+10. Screenshots / Results
+11. Testing Approach
+12. Challenges Faced
+13. Learnings and Key Takeaways
+14. Future Enhancements
+15. References
+
+---
+
+# 📸 Screenshots
+
+Screenshots should be stored under:
+
+```text
+docs/
+└── screenshots/
+    ├── login.png
+    ├── main-menu.png
+    ├── student-management.png
+    ├── attendance.png
+    ├── performance.png
+    └── report.png
+```
+
+Recommended screenshots:
+
+1. Login screen
+2. Main menu
+3. Student registration
+4. Student list
+5. Attendance management
+6. Performance management
+7. Attendance shortage result
+8. Consolidated student report
+
+---
+
+# 🗂️ Recommended Repository Contents
+
+A professional repository should contain:
+
+```text
+Programing-in-Java-B22-B24-/
+│
+├── studentmanagment/
+│   └── src/
+│
+├── docs/
+│   ├── architecture.png
+│   ├── workflow.png
+│   ├── use-case.png
+│   ├── class-diagram.png
+│   ├── sequence-diagram.png
+│   └── screenshots/
+│
+├── README.md
+├── statement.md
+├── PROJECT_REPORT.pdf
+├── LICENSE
+└── .gitignore
 ```
 
 ---
 
-## File Descriptions
+# 📄 Required `statement.md`
 
-| File | Purpose |
-|------|---------|
-| `student.java` | Model class for student entity |
-| `Attendancerecord.java` | Model class for attendance data |
-| `PerformanceRecord.java` | Model class for performance data |
-| `StudentService.java` | Business logic for student operations |
-| `AttendanceService.java` | Business logic for attendance |
-| `PerformanceService.java` | Business logic for performance |
-| `AuthService.java` | Authentication and authorization logic |
-| `ReportService.java` | Report generation logic |
-| `InputValidator.java` | Input validation utility methods |
-| `Main.java` | Application entry point and menu controller |
-| `students.csv` | Student records database |
-| `users.csv` | User credentials database |
+The repository should contain a separate `statement.md` file covering:
+
+```text
+Problem Statement
+Scope of the Project
+Target Users
+High-Level Features
+```
+
+This keeps the project requirements separate from the technical README.
 
 ---
 
-## Security Considerations
+# 🔄 Repository & Git Guidelines
 
-- Passwords stored in plaintext (development version)
-- Recommended: Hash passwords in production
-- Access control enforced at service level
-- File-based access control for CSV files
-- Input validation to prevent invalid data entry
+Git is used for source-code version control.
 
----
+Recommended workflow:
 
-## Performance Characteristics
+```bash
+git status
+git add .
+git commit -m "Describe the change"
+git push origin main
+```
 
-- **Time Complexity:** O(n) for linear searches
-- **Space Complexity:** O(n) for storing records in memory
-- **Scalability:** Suitable for institutions with hundreds of students
-- **Response Time:** Instant for typical operations
-- **File I/O:** Efficient buffered read/write operations
+Use meaningful commit messages.
 
----
+Examples:
 
-## Known Limitations
+```text
+Add student management module
+Implement attendance validation
+Improve performance calculation
+Add report generation
+Fix authentication validation
+Update project documentation
+Add testing documentation
+```
 
-1. Single-user session (one logged-in user at a time)
-2. In-memory attendance/performance storage (not persisted to file)
-3. No database support (CSV-based only)
-4. Console-based interface (no GUI)
-5. No network/remote access capability
-6. Linear search for student lookup
+Avoid committing:
 
----
-
-## Troubleshooting
-
-### Issue: CSV files not found
-**Solution:** Run application from correct directory where CSV files are located
-
-### Issue: Permission denied error
-**Solution:** Ensure write permissions on the directory containing CSV files
-
-### Issue: ClassNotFoundException
-**Solution:** Compile all Java files in correct package structure before running
-
-### Issue: InputMismatchException
-**Solution:** Ensure input matches expected data type (integer, decimal, string)
+- Passwords
+- API keys
+- Database credentials
+- Personal tokens
+- Temporary files
+- IDE-specific files
+- Compiled `.class` files
 
 ---
 
-## Contributing
+# 🚫 Recommended `.gitignore`
 
-This is an academic project. For improvements or suggestions:
+Example:
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
+```gitignore
+# Java compiled files
+*.class
+
+# Build directories
+out/
+build/
+target/
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+.project
+.classpath
+.settings/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Sensitive configuration
+.env
+*.env
+*.secret
+config.properties
+users.csv
+
+# Temporary files
+*.tmp
+*.log
+```
 
 ---
 
-## License
+# 🔒 Data & Privacy Guidelines
 
-This project is licensed under the MIT License. See LICENSE file for details.
+The project may handle student-related information.
 
----
+Therefore:
 
-## Author
+- Do not commit real student personal information.
+- Do not publish real authentication credentials.
+- Do not include private institutional data.
+- Use sample/demo data in the public repository.
+- Keep sensitive configuration outside version control.
 
-**Akshay Pratap Singh**
-- **Roll Number:** 25BCE10184
-- **Course:** CSE2006 - Programming in Java
-- **Slot:** B22 + B24
-- **Faculty:** Murugeswari.K
-- **Institution:** [Your Institution Name]
-- **GitHub:** [https://github.com/akshay25bce10184-sketch](https://github.com/akshay25bce10184-sketch/Programing-in-Java-B22-B24-)
+For production deployment, additional privacy and security controls would be required.
 
 ---
 
-## Acknowledgments
+# 🤝 Contributing
 
-- Faculty: **Murugeswari.K** for course guidance
-- Java Documentation for reference materials
-- Educational best practices for system design
+This project is primarily developed for academic purposes.
+
+Suggestions and improvements are welcome.
+
+## Contribution Process
+
+1. Fork the repository.
+2. Create a feature branch.
+3. Implement the change.
+4. Test the change.
+5. Commit using a meaningful message.
+6. Push the branch.
+7. Create a Pull Request.
+
+Example:
+
+```bash
+git checkout -b feature/improve-attendance
+git add .
+git commit -m "Improve attendance validation"
+git push origin feature/improve-attendance
+```
 
 ---
 
-## Repository Information
+# 🧑‍💻 Author
 
-**GitHub Repository:** https://github.com/akshay25bce10184-sketch/Programing-in-Java-B22-B24-
+## Akshay Pratap Singh
 
-**Course Code:** CSE2006  
-**Course Title:** Programming in Java  
+**Registration No.:** 25BCE10184
+
+**Course:** CSE2006 – Programming in Java
+
 **Slot:** B22 + B24
 
 ---
 
-## Support
+# 🙏 Acknowledgements
 
-For questions or issues regarding this project, please:
-1. Check existing GitHub issues
-2. Create a new issue with detailed description
-3. Include error messages and steps to reproduce
+This project was developed as part of the **CSE2006 – Programming in Java** course.
 
----
+The project applies concepts learned from the course curriculum, including:
 
-## Getting Started Quick Reference
+- Core Java
+- Object-Oriented Programming
+- Collections
+- Exception Handling
+- File I/O
+- Modular Programming
 
-```bash
-# Clone repository
-git clone https://github.com/akshay25bce10184-sketch/Programing-in-Java-B22-B24-.git
-
-# Navigate to directory
-cd Programing-in-Java-B22-B24-
-
-# Compile
-javac -d . Javafiles/Main.java
-
-# Run
-java Javafiles.Main
-
-# Default Credentials
-Username: admin
-Password: admin123
-```
+Acknowledgement is also given to the course faculty, academic resources, laboratory exercises, and learning materials used during development.
 
 ---
 
-**Last Updated:** September 2024  
-**Version:** 1.0  
-**Status:** Complete & Tested ✅
+# 📚 References
+
+1. Herbert Schildt, *Java: The Complete Reference*, 11th Edition, Oracle Press.
+2. Oracle Java Documentation.
+3. CSE2006 – Programming in Java Course Material.
+4. Course-provided laboratory exercises and learning resources.
 
 ---
 
-*This README provides comprehensive documentation for the Smart Student Attendance & Performance System project. For detailed technical information, refer to the project report.*
+# 📜 License
+
+This project is licensed under the **MIT License**.
+
+The MIT License permits use, copying, modification, merging, publishing, distribution, sublicensing, and selling of copies of the software, subject to the conditions stated in the license.
+
+See the [`LICENSE`](LICENSE) file for the complete license text.
+
+## MIT License
+
+Copyright (c) 2026 Akshay Pratap Singh
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+---
+
+# ⭐ Project Summary
+
+The **Smart Student Attendance & Performance Management System** demonstrates the practical application of Java programming concepts to an academic management problem.
+
+### Current Capabilities
+
+- 🔐 User Authentication
+- 👨‍🎓 Student Management
+- 📊 Attendance Management
+- 📝 Performance Management
+- 📄 Report Generation
+- ✅ Input Validation
+- 💾 CSV-Based Storage
+- 🧩 Modular Java Architecture
+
+### Planned Improvements
+
+- 🗄️ JDBC Database Integration
+- 🔐 Secure Password Hashing
+- 🧵 Multithreading & Synchronization
+- 🧪 JUnit Testing
+- 🖥️ GUI
+- 📊 Advanced Analytics
+- 📄 Advanced Report Export
+
+---
+
+# 🌟 Final Note
+
+This project is intended as an academic demonstration of Java programming and software design concepts.
+
+The implementation prioritizes:
+
+**Modularity → Maintainability → Validation → Course Relevance → Extensibility**
+
+The architecture provides a foundation for future expansion into a database-backed, secure, multi-user academic management system.
+
+---
+
+<p align="center">
+
+<strong>Built with Java ☕</strong>
+
+<br>
+
+<strong>CSE2006 – Programming in Java</strong>
+
+<br><br>
+
+© 2026 Akshay Pratap Singh
+
+</p>
